@@ -1,19 +1,17 @@
-const mongoose = require("mongoose");
-const { User, Thought } = require("../models");
+// utils/data.js
+const faker = require("faker");
 
-mongoose.connect("mongodb://127.0.0.1:27017/studentsDB", {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-});
+const Users = [...Array(10)].map((_, index) => ({
+	username: faker.internet.userName() + index,
+	email: faker.internet.email(),
+}));
 
-const userData = [
-	{
-		username: "james",
-		email: "james@test.com",
-		thoughts: [],
-		friends: [],
-	},
-];
+const Thoughts = [...Array(10)].map(() => ({
+	thoughtText: faker.lorem.sentence(),
+	username: Users[Math.floor(Math.random() * Users.length)].username, // Randomly assign a username from the Users array
+}));
+
+module.exports = { Users, Thoughts };
 
 const thoughtData = [
 	{
