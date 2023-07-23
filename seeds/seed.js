@@ -6,7 +6,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/studentsDB", {
 	useUnifiedTopology: true,
 });
 
-const User = [
+const userData = [
 	{
 		username: "james",
 		email: "james@test.com",
@@ -15,7 +15,7 @@ const User = [
 	},
 ];
 
-const Thought = [
+const thoughtData = [
 	{
 		thoughtText: "Testing a thought",
 		createdAt: Date.now(),
@@ -23,3 +23,19 @@ const Thought = [
 		reactions: [],
 	},
 ];
+
+User.insertMany(userData)
+	.then(() => {
+		console.log("Users inserted");
+	})
+	.catch((err) => {
+		console.error(err);
+	});
+
+Thought.insertMany(thoughtData)
+	.then(() => {
+		console.log("Thoughts inserted");
+	})
+	.catch((err) => {
+		console.error(err);
+	});
