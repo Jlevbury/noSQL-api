@@ -1,39 +1,23 @@
-// utils/data.js
-const faker = require("faker");
-
-const Users = [...Array(10)].map((_, index) => ({
-	username: faker.internet.userName() + index,
-	email: faker.internet.email(),
-}));
-
-const Thoughts = [...Array(10)].map(() => ({
-	thoughtText: faker.lorem.sentence(),
-	username: Users[Math.floor(Math.random() * Users.length)].username, // Randomly assign a username from the Users array
-}));
-
-module.exports = { Users, Thoughts };
-
-const thoughtData = [
+const Users = [
 	{
-		thoughtText: "I dont think this is working correctly",
-		createdAt: Date.now(),
-		username: "james",
-		reactions: [],
+		username: "User1",
+		email: "user1@email.com",
+	},
+	{
+		username: "User2",
+		email: "user2@email.com",
 	},
 ];
 
-User.insertMany(userData)
-	.then(() => {
-		console.log("Users inserted");
-	})
-	.catch((err) => {
-		console.error(err);
-	});
+const Thoughts = [
+	{
+		thoughtText: "This is a thought from User1",
+		username: "User1",
+	},
+	{
+		thoughtText: "This is a thought from User2",
+		username: "User2",
+	},
+];
 
-Thought.insertMany(thoughtData)
-	.then(() => {
-		console.log("Thoughts inserted");
-	})
-	.catch((err) => {
-		console.error(err);
-	});
+module.exports = { Users, Thoughts };
