@@ -17,7 +17,7 @@ const userData = [
 
 const thoughtData = [
 	{
-		thoughtText: "Testing a thought",
+		thoughtText: "I dont think this is working correctly",
 		createdAt: Date.now(),
 		username: "james",
 		reactions: [],
