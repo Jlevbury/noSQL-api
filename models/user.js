@@ -1,18 +1,22 @@
 const { Schema, model } = require("mongoose");
+const validator = require("validator");
 
 const UserSchema = new Schema(
 	{
 		username: {
 			type: String,
 			unique: true,
-			required: true,
+			required: "Username is Required",
 			trim: true,
 		},
 		email: {
 			type: String,
-			required: true,
+			required: "Email address is Required",
 			unique: true,
-			match: [/.+@.+\..+/, "Must match an email address!"],
+			validate: {
+				validator: validator.isEmail,
+				message: "Not a valid email",
+			},
 		},
 		thoughts: [
 			{
@@ -30,6 +34,7 @@ const UserSchema = new Schema(
 	{
 		toJSON: {
 			virtuals: true,
+			getters: true,
 		},
 		id: false,
 	}
