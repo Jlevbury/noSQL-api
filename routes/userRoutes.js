@@ -1,6 +1,7 @@
 const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 const User = require("../models/user");
+const userController = require("../controllers/userController");
 
 // GET route to retrieve all users
 router.get("/", async (req, res) => {
@@ -66,6 +67,9 @@ router.delete("/:id", async (req, res) => {
 		res.status(500).json({ message: err.message });
 	}
 });
+
+router.post("/:userId/friends/:friendId", userController.addFriend);
+router.delete("/:userId/friends/:friendId", userController.removeFriend);
 
 // Middleware function to get a user by ID
 async function getUser(req, res, next) {

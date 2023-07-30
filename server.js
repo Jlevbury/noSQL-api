@@ -11,6 +11,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", require("./routes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/thoughts", require("./routes/thoughtRoutes"));
+app.use((err, req, res, next) => {
+	console.error(err.stack);
+	res.status(500).send("Something broke!");
+});
 
 mongoose.connect(
 	process.env.MONGODB_URI || "mongodb://localhost/socialnetwork",

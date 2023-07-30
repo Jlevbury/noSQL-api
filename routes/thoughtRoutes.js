@@ -1,5 +1,7 @@
 const router = require("express").Router();
-const Thought = require("../models/thought"); // Add this line
+const { Types } = require("mongoose");
+
+const Thought = require("../models/thought");
 const {
 	getAllThoughts,
 	getThoughtById,
@@ -37,16 +39,13 @@ router.post("/:thoughtId/reactions", async (req, res) => {
 		res.status(500).json(err);
 	}
 });
+
 router.delete("/:thoughtId/reactions/:reactionId", async (req, res) => {
 	try {
 		const updatedThought = await Thought.findOneAndUpdate(
 			{ _id: req.params.thoughtId },
-			{
-				$pull: {
-					reactions: { reactionId: Types.ObjectId(req.params.reactionId) },
-				},
-			}, // <-- Notice the change here
-			{ new: true }
+			{ $pull: { reactions: { reactionId: req.params.reactionId } } },
+			{ new: true, runValidators: true }
 		);
 
 		if (!updatedThought) {
