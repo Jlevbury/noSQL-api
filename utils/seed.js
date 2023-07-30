@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const { User, Thought } = require("../models");
 const { Users, Thoughts } = require("./data");
 
-mongoose.connect("mongodb://127.0.0.1:27017/studentsDB", {
+mongoose.connect("mongodb://127.0.0.1:27017/socialDB", {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });

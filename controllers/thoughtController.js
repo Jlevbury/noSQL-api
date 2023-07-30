@@ -32,6 +32,7 @@ const thoughtController = {
 
 	// create Thought
 	createThought({ body }, res) {
+		console.log(body);
 		Thought.create(body)
 			.then((dbThoughtData) => res.json(dbThoughtData))
 			.catch((err) => res.status(400).json(err));
