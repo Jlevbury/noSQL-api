@@ -1,75 +1,64 @@
-const express = require("express");
-const router = express.Router();
-const Thought = require("../models/thought");
+const router = require("express").Router();
+const Thought = require("../models/thought"); // Add this line
+const {
+	getAllThoughts,
+	getThoughtById,
+	createThought,
+	updateThought,
+	deleteThought,
+} = require("../controllers/thoughtController");
 
-// GET route to retrieve all thoughts
-router.get("/", async (req, res) => {
+// Route for getting all thoughts and creating a new thought
+router.route("/").get(getAllThoughts).post(createThought);
+
+// Route for getting a thought by ID, updating a thought, and deleting a thought
+router
+	.route("/:id")
+	.get(getThoughtById)
+	.put(updateThought)
+	.delete(deleteThought);
+
+router.post("/:thoughtId/reactions", async (req, res) => {
 	try {
-		const thoughts = await Thought.find();
-		res.json(thoughts);
-	} catch (err) {
-		res.status(500).json({ message: err.message });
-	}
-});
+		const updatedThought = await Thought.findOneAndUpdate(
+			{ _id: req.params.thoughtId },
+			{ $push: { reactions: req.body } },
+			{ new: true, runValidators: true }
+		);
 
-// POST route to create a new thought
-router.post("/", async (req, res) => {
-	const thought = new Thought({
-		thoughtText: req.body.thoughtText,
-		// you can add other fields as needed
-	});
+		if (!updatedThought) {
+			return res
+				.status(404)
+				.json({ message: "No thought found with this id!" });
+		}
 
-	try {
-		const newThought = await thought.save();
-		res.status(201).json(newThought);
-	} catch (err) {
-		res.status(400).json({ message: err.message });
-	}
-});
-
-// GET route to retrieve a specific thought
-router.get("/:id", getThought, (req, res) => {
-	res.json(res.thought);
-});
-
-// PUT route to update a thought
-router.put("/:id", getThought, async (req, res) => {
-	if (req.body.thoughtText != null) {
-		res.thought.thoughtText = req.body.thoughtText;
-	}
-
-	try {
-		const updatedThought = await res.thought.save();
 		res.json(updatedThought);
 	} catch (err) {
-		res.status(400).json({ message: err.message });
+		res.status(500).json(err);
 	}
 });
-
-// DELETE route to delete a thought
-router.delete("/:id", getThought, async (req, res) => {
+router.delete("/:thoughtId/reactions/:reactionId", async (req, res) => {
 	try {
-		await res.thought.remove();
-		res.json({ message: "Deleted Thought" });
-	} catch (err) {
-		res.status(500).json({ message: err.message });
-	}
-});
+		const updatedThought = await Thought.findOneAndUpdate(
+			{ _id: req.params.thoughtId },
+			{
+				$pull: {
+					reactions: { reactionId: Types.ObjectId(req.params.reactionId) },
+				},
+			}, // <-- Notice the change here
+			{ new: true }
+		);
 
-// Middleware function to get a thought by ID
-async function getThought(req, res, next) {
-	let thought;
-	try {
-		thought = await Thought.findById(req.params.id);
-		if (thought == null) {
-			return res.status(404).json({ message: "Cannot find thought" });
+		if (!updatedThought) {
+			return res
+				.status(404)
+				.json({ message: "No thought found with this id!" });
 		}
-	} catch (err) {
-		return res.status(500).json({ message: err.message });
-	}
 
-	res.thought = thought;
-	next();
-}
+		res.json(updatedThought);
+	} catch (err) {
+		res.status(500).json(err);
+	}
+});
 
 module.exports = router;

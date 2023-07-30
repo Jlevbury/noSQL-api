@@ -9,8 +9,8 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api", require("./routes"));
-app.use("/api/users", userRoutes);
-app.use("/api/thoughts", thoughtRoutes);
+app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/thoughts", require("./routes/thoughtRoutes"));
 
 mongoose.connect(
 	process.env.MONGODB_URI || "mongodb://localhost/socialnetwork",
