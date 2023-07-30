@@ -1,6 +1,8 @@
 
 
 # NoSQL Social Media API
+https://watch.screencastify.com/v/XfRN24ZJrZazavBlcKz6
+![Screenshot (249)](https://github.com/Jlevbury/noSQL-api/assets/125767916/bdb6dd0b-cf1e-47d0-8df1-7eba58d3e0fc)
 
 ## Overview
 
@@ -19,7 +21,7 @@ Another challenging aspect was managing the MongoDB connections, particularly en
 Despite these challenges, the project provided a great opportunity to learn about NoSQL databases, particularly MongoDB, and how to implement complex data relationships in a flexible, schema-less database.
 
 ## Installation & Usage
-
+https://watch.screencastify.com/v/XfRN24ZJrZazavBlcKz6
 N/A , please view the linked video for an overview of the user experience.
 
 ## License
